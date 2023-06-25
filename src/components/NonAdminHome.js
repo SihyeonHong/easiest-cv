@@ -8,14 +8,13 @@ import {
   Modal,
   Form,
 } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HomeComponent from "./HomeComponent";
-import Tab from "./Tab";
+import TabComponent from "./TabComponent";
 
-function UserHome({ userid }) {
+function NonAdminHome({ userid }) {
   const navigate = useNavigate();
-  const currentPath = window.location.pathname;
   const [tabs, setTabs] = useState(["Tab1", "Tab2"]);
   let [activeKey, setActiceKey] = useState("home");
 
@@ -84,7 +83,11 @@ function UserHome({ userid }) {
         </Nav>
       </Row>
       <Row>
-        {activeKey === "home" ? <HomeComponent /> : <Tab tabname={activeKey} />}
+        {activeKey === "home" ? (
+          <HomeComponent />
+        ) : (
+          <TabComponent tabname={activeKey} />
+        )}
       </Row>
     </Container>
   );
@@ -155,4 +158,4 @@ function UserHome({ userid }) {
   }
 }
 
-export default UserHome;
+export default NonAdminHome;
