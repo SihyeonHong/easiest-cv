@@ -88,8 +88,7 @@ function TabAdminComponent({ tabname }) {
               <td className="actions-column">
                 <Button variant="light" onClick={() => addTable(table.index)}>
                   +
-                </Button>
-                {""}
+                </Button>{" "}
                 <Button variant="light" onClick={() => deleteTable(table.key)}>
                   -
                 </Button>

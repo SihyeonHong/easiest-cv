@@ -16,6 +16,32 @@ body > * {
   color: white !important;
 }
 
+.nav-init {
+  text-align: center;
+  font-size: larger;
+}
+
+.body-init > * {
+  margin-top: 30px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.form-id {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-id-child2 {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.unconfirmed {
+  border-color: red !important;
+}
+
 .tabBody {
   background-color: #f2f2f2;
   max-width: 640px;
