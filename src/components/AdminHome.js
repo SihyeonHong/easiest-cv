@@ -9,11 +9,12 @@ import {
   Form,
 } from "react-bootstrap";
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import HomeAdminComponent from "./HomeAdminComponent";
 import TabAdminComponent from "./TabAdminComponent";
 
-function AdminHome({ userid }) {
+function AdminHome() {
+  const userid = useParams().userid;
   const navigate = useNavigate();
   const pdfInput = useRef(null);
   const handlePDFOpen = () => pdfInput.current.click();

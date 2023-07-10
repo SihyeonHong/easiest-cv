@@ -3,23 +3,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
-import styled from "styled-components";
 import NonAdminHome from "./components/NonAdminHome";
 import AdminHome from "./components/AdminHome";
-import HomeComponent from "./components/HomeComponent";
-import { Container, Row, Col, Form, Button, Nav } from "react-bootstrap";
-// import TabComponent from "./components/TabComponent";
+import RequireAuth from "./components/RequireAuth";
+import { Container, Row, Form, Button, Nav } from "react-bootstrap";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<InitPage />} />
-        <Route path="/userid" element={<NonAdminHome userid={"userid"} />}>
-          <Route path="#" element={<HomeComponent />} />
-          {/* <Route path=":tab" element={<TabComponent />} /> */}
-        </Route>
-        <Route path="/admin" element={<AdminHome userid={"admin"} />} />
+        <Route path="/:userid" element={<NonAdminHome />} />
+        <Route
+          path="/:userid/admin"
+          element={
+            <RequireAuth>
+              <AdminHome />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </div>
   );
@@ -50,10 +52,6 @@ function InitPage() {
         </Nav.Item>
       </Nav>
       <Row>{showLogin ? <LoginForm /> : <SignupForm />}</Row>
-
-      <a href="/userid">userid</a>
-      <br></br>
-      <a href="/admin">admin</a>
     </Container>
   );
 }
@@ -68,15 +66,19 @@ function LoginForm() {
       password: password,
     };
     console.log(data);
-    /* axios.post("http://localhost:8080/login", data)
-            .then((res) => {
-                console.log(res);
-                alert("Log in success!");
-            })
-            .catch((err) => {
-                console.log(err);
-                alert("Log in failed!");
-            }); */
+    axios
+      .post("http://localhost:8080/login", data)
+      .then((res) => {
+        console.log(res);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("userid", res.data.userid);
+        // Navigate to the admin page
+        window.location = `/${userid}/admin`;
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Log in failed!");
+      });
   };
   return (
     <Form className="body-init">
