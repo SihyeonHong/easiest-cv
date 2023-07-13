@@ -12,9 +12,22 @@ function NonAdminHome() {
   const navigate = useNavigate();
   const [tabs, setTabs] = useState(["Tab1", "Tab2"]);
   const [activeKey, setActiceKey] = useState("home");
+  const [userinfo, setUserinfo] = useState({}); // userinfo = {username: "", email: "", ...}
 
   const handleLinkToInitPage = () => {
     navigate("/");
+  };
+
+  const getTabs = () => {
+    axios
+      .get(`http://localhost:8080/tabs?userid=${userid}`)
+      .then((res) => {
+        console.log(res.data);
+        // setTabs(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -22,8 +35,10 @@ function NonAdminHome() {
       .get(`http://localhost:8080/userinfo?userid=${userid}`)
       .then((res) => {
         setIsUserExist(true);
-        console.log(res);
+        // console.log(res);
+        setUserinfo(res.data);
         // get additional info
+        // getTabs();
       })
       .catch((err) => {
         setIsUserExist(false);
@@ -42,7 +57,9 @@ function NonAdminHome() {
       </Row>
       <Row>
         <Col>
-          <h1 className="mt-5 mb-5">{userid.toUpperCase()}</h1>
+          <h1 className="mt-5 mb-5">
+            {userinfo && userinfo.username.toUpperCase()}
+          </h1>
         </Col>
       </Row>
       <Row>
@@ -84,7 +101,7 @@ function NonAdminHome() {
       <Row>
         {isUserExist ? (
           activeKey === "home" ? (
-            <HomeComponent />
+            <HomeComponent img={userinfo.img} intro={userinfo.intro} />
           ) : (
             <TabComponent tabname={activeKey} />
           )
